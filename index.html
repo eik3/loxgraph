@@ -11,50 +11,46 @@
     </style>
   </head>
   <body>
-    <div id=graph style=width:1550px;height:400px;></div>
+    <div id=div1 style=width:1550px;height:400px;></div>
+    <div id=div2 style=width:1550px;height:400px;></div>
     <script src=coffee-script.js></script>
     <script src=jquery-1.9.0.min.js></script>
     <script src=dygraph.js></script>
 
     <script type=text/coffeescript>
       $ ->
-        url = '8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml'
-        $.ajax
-          url: url
-          dataType: 'html'
-          success: (response) ->
+        u1 = '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml' #twp
+        u2 = '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201401.xml' #dhf
 
-            # Parse the xml file and get data
-            xmlDoc = $.parseXML(response)
-            $xml = $(xmlDoc)
-            arr = []
-            $xml.find('S').each ->
-              timestamp = new Date($(this).attr('T'))
-              value = parseFloat($(this).attr('AI1'))
-              arr.push [timestamp, value]
-              #console.log
-              #obj.time =
-              #obj.data =
+        doit = (url, div) ->
+          $.ajax
+            url: url
+            dataType: 'html'
+            success: (response) ->
 
-            new Dygraph($('#graph')[0], arr,
-              includeZero: true
-              delimiter: ';'
-              rollPeriod: 1
-              showRoller: true
-              strokeWidth: 1
-              labels: ['Time', 'value']
-            )
+              xmlDoc = $.parseXML(response)
+              $xml = $(xmlDoc)
+              arr = []
+              $xml.find('S').each ->
+                timestamp = new Date($(this).attr('T'))
+                value = parseFloat($(this).attr('AI1'))
+                arr.push [timestamp, value]
+                #console.log
+                #obj.time =
+                #obj.data =
 
+              new Dygraph($(div)[0], arr,
+                includeZero: true
+                delimiter: ';'
+                rollPeriod: 1
+                showRoller: true
+                strokeWidth: 1
+                labels: ['Time', 'value']
+              )
 
+        doit(u1, div1)
+        doit(u2, div2)
 
-        dateDelta = (delta) ->
-          d = new Date()
-          d.setDate(d.getDate()+delta)
-          month = d.getMonth()+1
-          month = (if month < 10 then '0' else '') + month
-          day = d.getDate()
-          day = (if day < 10 then '0' else '') + day
-          "#{d.getFullYear()}-#{month}-#{day}"
 
         ###
         draw = ->
