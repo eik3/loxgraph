@@ -18,17 +18,17 @@
 
     <script type=text/coffeescript>
       $ ->
+        url = '8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml'
         $.ajax
-          type: "GET"
-          url: "8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml"
-          dataType: "html"
+          url: url
+          dataType: 'html'
           success: (response) ->
 
             # Parse the xml file and get data
             xmlDoc = $.parseXML(response)
             $xml = $(xmlDoc)
             arr = []
-            $xml.find("S").each ->
+            $xml.find('S').each ->
               timestamp = new Date($(this).attr('T'))
               value = parseFloat($(this).attr('AI1'))
               arr.push [timestamp, value]
@@ -36,14 +36,13 @@
               #obj.time =
               #obj.data =
 
-            console.log arr
-
-            new Dygraph($("#graph")[0], arr,
+            new Dygraph($('#graph')[0], arr,
               includeZero: true
-              delimiter: ";"
+              delimiter: ';'
               rollPeriod: 1
               showRoller: true
               strokeWidth: 1
+              labels: ['Time', 'value']
             )
 
 
@@ -52,16 +51,16 @@
           d = new Date()
           d.setDate(d.getDate()+delta)
           month = d.getMonth()+1
-          month = (if month < 10 then "0" else "") + month
+          month = (if month < 10 then '0' else '') + month
           day = d.getDate()
-          day = (if day < 10 then "0" else "") + day
+          day = (if day < 10 then '0' else '') + day
           "#{d.getFullYear()}-#{month}-#{day}"
 
         ###
         draw = ->
-          new Dygraph($("#graph")[0], $obj,
+          new Dygraph($('#graph')[0], $obj,
             includeZero: true
-            delimiter: ";"
+            delimiter: ';'
             rollPeriod: 1
             showRoller: true
             strokeWidth: 1
@@ -70,10 +69,10 @@
 
         #g = draw()
 
-        $("#p1").change ->
+        $('#p1').change ->
           g.updateOptions file: buildURL()
 
-        $("#plus").click ->
+        $('#plus').click ->
           g.updateOptions rollPeriod: 1
 
         rollPeriodUp = ->
