@@ -1,23 +1,18 @@
 $ ->
-  u1 = '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml' #twp
-  u2 = '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201401.xml' #dhf
+  u1 = '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml' # BWP
+  u2 = '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201401.xml' # Entfeuchter
 
-  doajax = (url) ->
+  getStats = (url) ->
     $.ajax
       url: url
-      dataType: 'html'
-      success: (response) ->
-        parse response
+      dataType: 'text'
 
-  parse = (response) ->
-    xmlDoc = $.parseXML(response)
-    xml = $(xmlDoc)
-    arr = []
-    xml.find('S').each ->
+  parseXml = (xmlDoc) ->
+    $(xmlDoc).find('S').map ->
       timestamp = new Date($(this).attr('T'))
       value = parseFloat($(this).attr('AI1'))
-      arr.push [timestamp, value]
-    draw arr
+      [[timestamp, value]]
+    .toArray()
 
   draw = (data) ->
     new Dygraph($('#graph1')[0], data,
@@ -30,12 +25,17 @@ $ ->
       labels: ['Time', 'value']
     )
 
-  doajax u1
 
-  #doit(u2, div2)
+  getStats(u1).then(parseXml).then(draw)
 
+###
+    .then(draw)
 
-  ###
+  updateGraph = ->
+  $('#btn').on
+    'click'
+    getStats
+
   draw = ->
     new Dygraph($('#graph')[0], $obj,
       includeZero: true
@@ -44,7 +44,7 @@ $ ->
       showRoller: true
       strokeWidth: 1
     )
-  ###
+
 
   #g = draw()
 
@@ -74,3 +74,4 @@ $ ->
                 size += 5
             when 189 # -
                 size -= 5
+###
