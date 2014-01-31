@@ -2,37 +2,37 @@ $ ->
   u1 = '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml' #twp
   u2 = '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201401.xml' #dhf
 
-  doajax = (url, callback) ->
+  doajax = (url) ->
     $.ajax
       url: url
       dataType: 'html'
       success: (response) ->
-        callback response
+        parse response
 
-  doit = (url, div) ->
-    doajax url, (res) ->
-      xmlDoc = $.parseXML(res)
-      $xml = $(xmlDoc)
-      arr = []
-      $xml.find('S').each ->
-        timestamp = new Date($(this).attr('T'))
-        value = parseFloat($(this).attr('AI1'))
-        arr.push [timestamp, value]
+  parse = (response) ->
+    xmlDoc = $.parseXML(response)
+    xml = $(xmlDoc)
+    arr = []
+    xml.find('S').each ->
+      timestamp = new Date($(this).attr('T'))
+      value = parseFloat($(this).attr('AI1'))
+      arr.push [timestamp, value]
+    draw arr
 
-      new Dygraph($(div)[0], arr,
-        includeZero: true
-        delimiter: ';'
-        rollPeriod: 1
-        showRoller: true
-        digitsAfterDecimal: 3
-        strokeWidth: 1
-        labels: ['Time', 'value']
-      )
+  draw = (data) ->
+    new Dygraph($('#graph1')[0], data,
+      includeZero: true
+      delimiter: ';'
+      rollPeriod: 1
+      showRoller: true
+      digitsAfterDecimal: 3
+      strokeWidth: 1
+      labels: ['Time', 'value']
+    )
 
+  doajax u1
 
-
-  doit(u1, div1)
-  doit(u2, div2)
+  #doit(u2, div2)
 
 
   ###
