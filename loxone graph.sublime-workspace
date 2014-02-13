@@ -1,0 +1,309 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"gr",
+				"graph1"
+			],
+			[
+				"b",
+				"bottles-output"
+			],
+			[
+				"req",
+				"require"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"coff",
+				"Coffee: Quick Run Bar"
+			],
+			[
+				"cof",
+				"Coffee: Display JavaScript"
+			],
+			[
+				"co",
+				"Coffee: Lint"
+			],
+			[
+				"coffee",
+				"Coffee: Check Syntax"
+			],
+			[
+				"packa co",
+				"Package Control: List Packages"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"Package Control: List Packages"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/eh/dev/loxone-graph/script.coffee",
+		"/home/eh/dev/loxone-graph/mystats/script.coffee",
+		"/home/eh/dev/loxone-graph/index.html",
+		"/home/eh/dev/loxone-graph/mystats/index.html",
+		"/home/eh/dev/loxone-graphs/coffee-script.js",
+		"/home/eh/dev/loxone-graphs/index.html",
+		"/home/eh/dev/loxone-graphs/index1.html",
+		"/tmp/Ihx/a.rb",
+		"/home/eh/dev/loxone-graphs/mystats/index.html",
+		"/home/eh/dev/loxone-graphs/dygraph.js",
+		"/home/eh/dev/loxone-graphs/stats.html",
+		"/home/eh/dev/loxone-graphs/readme.txt",
+		"/home/eh/dev/loxone-graphs/jquery-1.9.0.min.js",
+		"/home/eh/dev/loxone-graphs/script.coffee",
+		"/home/eh/.config/sublime-text-3/Packages/Better CoffeeScript/CoffeeScript.sublime-settings",
+		"/home/eh/dev/loxone-graphs/m.csv",
+		"/home/eh/dev/loxone-graphs/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml",
+		"/home/eh/.bin/rollo.sh",
+		"/home/eh/.bashrc",
+		"/home/eh/dev/rjiffy-test/test.rb",
+		"/tmp/3pj/4954396/app.rb",
+		"/tmp/3pj/4954396/index.html",
+		"/home/eh/dev/loxone_sse/es.html",
+		"/home/eh/dev/loxone_sse/app.rb",
+		"/home/eh/dev/loxone_sse/watchr-config.rb",
+		"/tmp/bMO/4954396/index.html",
+		"/tmp/3jw/4954396/index.html",
+		"/home/eh/loxone_ftp/user/common/es.html",
+		"/home/eh/.config/sublime-text-3/Packages/User/sftp_servers/loxone",
+		"/tmp/3jw/4954396/app.rb",
+		"/tmp/3jw/4954396/Gemfile",
+		"/tmp/I.csv",
+		"/media/5186f867-3f02-4bc3-8c21-2ef79ba95764/camp/movies/Back.to.the.Future.1985.720p.HDTV.x264-ESiR.srt",
+		"/home/eh/dev/lox_v_in_remote/remote.rb",
+		"/tmp/aktuell Imp-Imp Schnitt.csv",
+		"/home/eh/dev/coffeetest/coffee.html",
+		"/home/eh/dev/lox_v_in_remote/remote.sh",
+		"/home/eh/dev/rjiffy-test/Gemfile",
+		"/home/eh/dev/jb/jb",
+		"/tmp/ZV7/a",
+		"/home/eh/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/eh/.config/sublime-text-2/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"getStats",
+			"parse",
+			"doajax",
+			"draw",
+			"div",
+			"div1",
+			"response",
+			"res",
+			"cb2",
+			"parse",
+			"cb2",
+			"callback",
+			"parse",
+			"callback",
+			"doajax",
+			"updateGraph",
+			"doit",
+			"parse",
+			"doajax",
+			"synta",
+			"\"",
+			"$1",
+			"requestParams",
+			"coeffs",
+			"regression",
+			"drawLines",
+			"\n        ",
+			"button",
+			"thin",
+			"curses",
+			"shut_time"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 335.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 124.0
+	},
+	"project": "loxone graph.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"index.html"
+			],
+			[
+				"in",
+				"index.html"
+			],
+			[
+				"ge",
+				"Gemfile"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"p",
+				"~/dev/pullup/pullup.sublime-project"
+			],
+			[
+				"",
+				"~/dev/katas/sinatra-jquery-ajax/loxone graph.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 256.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
