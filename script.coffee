@@ -43,12 +43,12 @@ class Graph
 $ ->
   g1 = new Graph
     name: 'BWP'
-    url: '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201401.xml'
+    url: '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201403.xml'
     div: 'graph1'
 
   g2 = new Graph
     name: 'Entfeuchter'
-    url: '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201401.xml'
+    url: '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201403.xml'
     div: 'graph2'
 
   g1.create()
