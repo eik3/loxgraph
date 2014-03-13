@@ -19,13 +19,14 @@ class Graph
 
   draw: (d) =>
     @graph = new Dygraph($("##{@div}")[0], d,
-      includeZero: true
+      dateWindow: [(new Date().valueOf())-86400000,new Date().valueOf()]
       delimiter: ';'
+      digitsAfterDecimal: 3
+      includeZero: true
+      labels: ['Time', 'value']
       rollPeriod: 1
       showRoller: true
-      digitsAfterDecimal: 3
       strokeWidth: 1
-      labels: ['Time', 'value']
     )
 
   create: ->
