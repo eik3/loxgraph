@@ -36,6 +36,10 @@ class Graph
     @loadFile(@url).then(@parseXml).then =>
       @graph.updateOptions file: @data
 
+  zoomRight: ->
+    @graph.updateOptions
+      dateWindow: [(new Date().valueOf())-86400000,new Date().valueOf()]
+
 $ ->
   g1 = new Graph
     name: 'BWP'
@@ -50,5 +54,8 @@ $ ->
   g1.create()
   g2.create()
 
-  $('#graph1').click ->
-    g1.update()
+  setInterval (->
+    console.log Date()
+    graph.update() for graph in [g1, g2]
+    graph.zoomRight() for graph in [g1, g2]
+  ), 5 * 60 * 1000
