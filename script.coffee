@@ -31,6 +31,7 @@ class Graph
 
   create: ->
     @loadFile(@url).then(@parseXml).then(@draw)
+    $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
 
   update: ->
     @loadFile(@url).then(@parseXml).then =>
@@ -39,6 +40,9 @@ class Graph
   zoomRight: ->
     @graph.updateOptions
       dateWindow: [(new Date().valueOf())-86400000,new Date().valueOf()]
+
+  adjustWidth: ->
+    $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
 
 $ ->
   g1 = new Graph
@@ -59,3 +63,6 @@ $ ->
     graph.update() for graph in [g1, g2]
     graph.zoomRight() for graph in [g1, g2]
   ), 5 * 60 * 1000
+
+  $(window).resize ->
+    graph.adjustWidth() for graph in [g1, g2]
