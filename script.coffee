@@ -16,7 +16,6 @@ class Graph
 
   draw: (d) =>
     @graph = new Dygraph($("##{@div}")[0], d,
-      dateWindow: [(new Date().valueOf())-86400000,new Date().valueOf()]
       delimiter: ';'
       digitsAfterDecimal: 3
       includeZero: true
@@ -30,14 +29,19 @@ class Graph
   create: ->
     @loadFile("/stats/#{@url}").then(@parseXml).then(@draw)
     $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
+    return this
 
   update: ->
     @loadFile(@url).then(@parseXml).then =>
       @graph.updateOptions file: @data
 
-  zoomRight: ->
+  zoomLastMinutes: (minutes=120) ->
+    now = new Date().valueOf()
+    intervalBegin = now - minutes * 1000 * 60
+    intervalEnd   = now
+    console.log [intervalBegin, intervalEnd]
     @graph.updateOptions
-      dateWindow: [(new Date().valueOf())-86400000,new Date().valueOf()]
+      dateWindow: [intervalBegin, intervalEnd]
 
   adjustWidth: ->
     $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
