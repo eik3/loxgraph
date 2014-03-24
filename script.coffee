@@ -81,14 +81,14 @@ class Stat
       $('#menu-container>ul').append("<li id=#{k}>#{v.title}<ul></ul></li>")
       for u in v.urls
         $("#menu-container>ul>li[id=#{k}]>ul")
-          .append("<li><span data-url=#{u.url}>#{u.year} #{u.month}</span></li>")
-    $('#menu-container span').click ->
-      $('#menu-container span').removeClass()
+          .append("<li><a title='show/hide graph for #{u.year} #{u.month}' href='javascript:void(0)' data-url=#{u.url}>#{u.year} #{u.month}</a></li>")
+    $('#menu-container a').click ->
+      $('#menu-container a').removeClass()
       $(this).addClass('selected')
       # TODO move remaining code into Graph method
       id = $(this).attr('data-url').replace(/\./g, '_') # '.' in id breaks jQuery!
       $('#graph-container').append("<div class=dygraph-wrapper>
-        <a title=close data-graph-id=#{id} class=close-graph href=''>x</a>
+        <a title=close data-graph-id=#{id} class=close-graph href='javascript:void(0)'>x</a>
         <div class=dygraph id=#{id}></div>
         </div")
       g = new Graph
