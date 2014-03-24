@@ -47,16 +47,14 @@ class Graph
     $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
 
 class Stat
-  @get_stats: ->
-    $('#js-datastore').data('stats')
-
   @loadFile: -> $.ajax { url: '/stats', dataType: 'html' }
 
   @parseHtml: (htmlDoc) =>
+    stats = {}
     $(htmlDoc).find('li>a').map ->
       url = $(this).attr('href')
       urlRe = /([0-9a-f-]{35})\.([0-9]{6})\.xml/
-      source = url.replace(urlRe, '$1')
+      sourceId = url.replace(urlRe, '$1')
       period = url.replace(urlRe, '$2')
       year = period.slice 0,4
       month = period.slice -2
@@ -64,43 +62,39 @@ class Stat
       title = $(this).text().replace(titleRe, '$1')
       categoryAndRoom = $(this).text().replace(titleRe, '$2')
 
-      if source of Stat.get_stats() # CoffeeScript 'of' equals JS 'in'
-        data = Stat.get_stats()[source]
-        data.urls.push {url, year, month}
-        $('#js-datastore').data('stats', obj)
+      if sourceId of stats # CoffeeScript 'of' equals JS 'in'
+        stats[sourceId].urls.push {url, year, month}
       else
-        obj = Stat.get_stats()
-        obj[source] = {title, categoryAndRoom, urls: [{url, year, month}]}
-        $('#js-datastore').data('stats', obj)
+        stats[sourceId] = {title, categoryAndRoom, urls: [{url, year, month}]}
 
-  @createMenu: ->
+    return stats
+
+  @createMenu: (stats) ->
     $('#menu-container').append('<ul></ul>')
-    for k, v of Stat.get_stats()
-      $('#menu-container>ul').append("<li id=#{k}>#{v.title}<ul></ul></li>")
-      for u in v.urls
-        divid = u.url.replace(/\./g, '_') # '.' in id breaks jQuery!
-        $("#menu-container>ul>li[id=#{k}]>ul")
+    for sourceId, source of stats
+      $('#menu-container>ul').append("<li id=#{sourceId}>#{source.title}<ul></ul></li>")
+      for u in source.urls
+        divId = "#{sourceId}_#{u.year}#{u.month}"
+        $("#menu-container>ul>li[id=#{sourceId}]>ul")
           .append("<li><a title='show/hide graph for #{u.year} #{u.month}'
             href='javascript:void(0)'
-            data-div-id=#{divid}
+            data-div-id=#{divId}
             data-url=#{u.url}
-            data-title=\"#{v.title}: #{u.year}-#{u.month}\">#{u.year}-#{u.month}</a></li>")
+            data-title=\"#{source.title}: #{u.year}-#{u.month}\">#{u.year}-#{u.month}</a></li>")
     $('#menu-container a').click ->
       # TODO move remaining code into Graph method
-      anchor = this
-      divid = $(this).attr('data-div-id')
+      divId = $(this).attr('data-div-id')
       if $(this).hasClass('selected')
-        #$(this).parent().remove()
-        $("##{divid}").parent().remove()
+        $("##{divId}").parent().remove()
       else
         $('#graph-container').append("<div class=dygraph-wrapper>
-          <a title=close data-div-id=#{divid} class=close-graph href='javascript:void(0)'>x</a>
-          <div class=dygraph id=#{divid}><span class=loading>loading</span></div>
+          <a title=close data-div-id=#{divId} class=close-graph href='javascript:void(0)'>x</a>
+          <div class=dygraph id=#{divId}><span class=loading>loading</span></div>
           </div")
         g = new Graph
           name: $(this).attr('data-title')
           url: $(this).attr('data-url')
-          div: divid
+          div: divId
         .create()
 
       $('.close-graph').click (event) ->
@@ -111,10 +105,7 @@ class Stat
 
       $(this).toggleClass('selected')
 
-
-
   @go: ->
-    $('#js-datastore').data('stats', {})
     @loadFile()
       .then(@parseHtml)
       .then(@createMenu)
