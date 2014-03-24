@@ -79,29 +79,31 @@ class Stat
     for k, v of Stat.get_stats()
       $('#menu-container>ul').append("<li id=#{k}>#{v.title}<ul></ul></li>")
       for u in v.urls
+        divid = u.url.replace(/\./g, '_') # '.' in id breaks jQuery!
         $("#menu-container>ul>li[id=#{k}]>ul")
-          .append("<li><a title='show/hide graph for #{u.year} #{u.month}' href='javascript:void(0)' data-url=#{u.url}>#{u.year} #{u.month}</a></li>")
+          .append("<li><a title='show/hide graph for #{u.year} #{u.month}' href='javascript:void(0)' data-div-id=#{divid} data-url=#{u.url}>#{u.year} #{u.month}</a></li>")
     $('#menu-container a').click ->
       # TODO move remaining code into Graph method
-      id = $(this).attr('data-url').replace(/\./g, '_') # '.' in id breaks jQuery!
       anchor = this
+      divid = $(this).attr('data-div-id')
       if $(this).hasClass('selected')
         #$(this).parent().remove()
-        $("##{id}").parent().remove()
+        $("##{divid}").parent().remove()
       else
         $('#graph-container').append("<div class=dygraph-wrapper>
-          <a title=close data-graph-id=#{id} class=close-graph href='javascript:void(0)'>x</a>
-          <div class=dygraph id=#{id}><span class=loading>loading</span></div>
+          <a title=close data-div-id=#{divid} class=close-graph href='javascript:void(0)'>x</a>
+          <div class=dygraph id=#{divid}><span class=loading>loading</span></div>
           </div")
         g = new Graph
           name: 'foo'
           url: $(this).attr('data-url')
-          div: id
+          div: divid
         .create()
-        $('.close-graph').click (event) ->
-          event.preventDefault()
-          $(this).parent().remove()
-          $(anchor).removeClass('selected')
+
+      $('.close-graph').click (event) ->
+        event.preventDefault()
+        $(this).parent().remove()
+        $("#menu-container a[data-div-id=#{$(this).attr('data-div-id')}]").removeClass('selected')
 
       $(this).toggleClass('selected')
 
