@@ -5,10 +5,7 @@ class Graph
   data = undefined
   graph = undefined
 
-  loadFile: (url) ->
-    $.ajax
-      url: url
-      dataType: 'xml'
+  loadFile: (url) -> $.ajax { url: url, dataType: 'xml' }
 
   parseXml: (xmlDoc) =>
     @data = $(xmlDoc).find('S').map ->
@@ -49,10 +46,7 @@ class Stat
   @get_stats: ->
     $('#js-datastore').data('stats')
 
-  @loadFile: ->
-    $.ajax
-      url: '/stats'
-      dataType: 'html'
+  @loadFile: -> $.ajax { url: '/stats', dataType: 'html' }
 
   @parseHtml: (htmlDoc) =>
     $(htmlDoc).find('li>a').map ->
