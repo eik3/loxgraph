@@ -8,7 +8,7 @@ class Graph
   loadFile: (url) ->
     $.ajax
       url: url
-      dataType: 'text'
+      dataType: 'xml'
 
   parseXml: (xmlDoc) =>
     @data = $(xmlDoc).find('S').map ->
