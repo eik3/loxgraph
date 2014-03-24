@@ -85,14 +85,20 @@ class Stat
     $('#menu-container span').click ->
       $('#menu-container span').removeClass()
       $(this).addClass('selected')
+      # TODO move remaining code into Graph method
       id = $(this).attr('data-url').replace(/\./g, '_') # '.' in id breaks jQuery!
-      $('#graph-container').append("<div class=dygraph id=#{id}></div>")
+      $('#graph-container').append("<div class=dygraph-wrapper>
+        <a title=close data-graph-id=#{id} class=close-graph href=''>x</a>
+        <div class=dygraph id=#{id}></div>
+        </div")
       g = new Graph
         name: 'foo'
         url: $(this).attr('data-url')
         div: id
       .create()
-
+      $('.close-graph').click (event) ->
+        event.preventDefault()
+        $(this).parent().remove()
 
   @go: ->
     $('#js-datastore').data('stats', {})

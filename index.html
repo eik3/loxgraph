@@ -3,9 +3,26 @@
   <head>
     <title>Lox Stats</title>
     <style type=text/css>
-      .dygraph {
-        margin: 20px;
+      .dygraph-wrapper {
+        border: 2px solid white;
+        position: relative;
       }
+
+      .dygraph-wrapper .close-graph {
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-weight: 300;
+        position: absolute;
+        right: 1px;
+        top: 1px;
+      }
+
+      .dygraph {
+        border: 2px solid white;
+        margin: 20px;
+        position: relative;
+      }
+
       #menu-container, #graph-container {
         border: 2px solid gray;
         margin: 10px;
@@ -15,11 +32,10 @@
       }
 
       #graph-container {
+        min-height: 320px;
         text-align: center;
         vertical-align: middle;
-        min-height: 320px;
       }
-
     </style>
     <script src=coffee-script.js></script>
     <script src=jquery-2.1.0.min.js></script>
