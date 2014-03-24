@@ -3,6 +3,10 @@
   <head>
     <title>Lox Stats</title>
     <style type=text/css>
+      html {
+        font-family: sans-serif;
+      }
+
       .dygraph-wrapper {
         border: 2px solid white;
         position: relative;
@@ -23,7 +27,14 @@
         position: relative;
       }
 
-      #menu-container, #graph-container {
+      .dygraph .loading {
+        position: relative;
+        top: 120px;
+        color: #ddd;
+        font-size: 300%;
+      }
+
+      #menu-container {
         border: 2px solid gray;
         margin: 10px;
       }

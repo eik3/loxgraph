@@ -91,7 +91,7 @@ class Stat
       else
         $('#graph-container').append("<div class=dygraph-wrapper>
           <a title=close data-graph-id=#{id} class=close-graph href='javascript:void(0)'>x</a>
-          <div class=dygraph id=#{id}></div>
+          <div class=dygraph id=#{id}><span class=loading>loading</span></div>
           </div")
         g = new Graph
           name: 'foo'
