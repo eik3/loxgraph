@@ -27,6 +27,7 @@ class Graph
       rollPeriod: 1
       showRoller: true
       strokeWidth: 1
+      title: @name
     )
 
   create: ->
@@ -81,7 +82,11 @@ class Stat
       for u in v.urls
         divid = u.url.replace(/\./g, '_') # '.' in id breaks jQuery!
         $("#menu-container>ul>li[id=#{k}]>ul")
-          .append("<li><a title='show/hide graph for #{u.year} #{u.month}' href='javascript:void(0)' data-div-id=#{divid} data-url=#{u.url}>#{u.year} #{u.month}</a></li>")
+          .append("<li><a title='show/hide graph for #{u.year} #{u.month}'
+            href='javascript:void(0)'
+            data-div-id=#{divid}
+            data-url=#{u.url}
+            data-title=\"#{v.title}: #{u.year}-#{u.month}\">#{u.year}-#{u.month}</a></li>")
     $('#menu-container a').click ->
       # TODO move remaining code into Graph method
       anchor = this
@@ -95,7 +100,7 @@ class Stat
           <div class=dygraph id=#{divid}><span class=loading>loading</span></div>
           </div")
         g = new Graph
-          name: 'foo'
+          name: $(this).attr('data-title')
           url: $(this).attr('data-url')
           div: divid
         .create()
@@ -103,7 +108,8 @@ class Stat
       $('.close-graph').click (event) ->
         event.preventDefault()
         $(this).parent().remove()
-        $("#menu-container a[data-div-id=#{$(this).attr('data-div-id')}]").removeClass('selected')
+        dataDivId = $(this).attr('data-div-id')
+        $("#menu-container a[data-div-id=#{dataDivId}]").removeClass('selected')
 
       $(this).toggleClass('selected')
 
