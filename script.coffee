@@ -18,6 +18,7 @@ class Graph
     .toArray()
 
   draw: (d) =>
+    console.log @div
     @graph = new Dygraph($("##{@div}")[0], d,
       dateWindow: [(new Date().valueOf())-86400000,new Date().valueOf()]
       delimiter: ';'
@@ -30,7 +31,7 @@ class Graph
     )
 
   create: ->
-    @loadFile(@url).then(@parseXml).then(@draw)
+    @loadFile("/stats/#{@url}").then(@parseXml).then(@draw)
     $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
 
   update: ->
@@ -46,18 +47,15 @@ class Graph
 
 class Stat
   @get_stats: ->
-    $('#js-datastore').data('statArray')
-
-  @stat_exists: (source) ->
-    $.inArray(source, $('#js-datastore').data('statArray'))
+    $('#js-datastore').data('stats')
 
   @loadFile: ->
     $.ajax
-      url: '/stats/'
+      url: '/stats'
       dataType: 'html'
 
   @parseHtml: (htmlDoc) =>
-    statArray = $(htmlDoc).find('li>a').map ->
+    $(htmlDoc).find('li>a').map ->
       url = $(this).attr('href')
       urlRe = /([0-9a-f-]{35})\.([0-9]{6})\.xml/
       source = url.replace(urlRe, "$1")
@@ -71,38 +69,44 @@ class Stat
       if source of Stat.get_stats() # CoffeeScript 'of' equals JS 'in'
         data = Stat.get_stats()[source]
         data.urls.push {url, year, month}
-        $('#js-datastore').data('statArray', obj)
+        $('#js-datastore').data('stats', obj)
       else
         obj = Stat.get_stats()
         obj[source] = {title, categoryAndRoom, urls: [{url, year, month}]}
-        $('#js-datastore').data('statArray', obj)
+        $('#js-datastore').data('stats', obj)
 
   @createMenu: ->
-    #obj = Stat.get_stats()
-    #$('body').append("<pre>#{JSON.stringify(obj,undefined,2)}</pre>")
     $('#menu-container').append("<ul></ul>")
     for k, v of Stat.get_stats()
       $('#menu-container>ul').append("<li id=#{k}>#{v.title}<ul></ul></li>")
       for u in v.urls
-        $("#menu-container>ul>li[id=#{k}]>ul").append("<li><a href=#{u.url}>#{u.year} #{u.month}</a></li>")
+        $("#menu-container>ul>li[id=#{k}]>ul")
+          .append("<li><span data-url=#{u.url}>#{u.year} #{u.month}</span></li>")
+    $('#menu-container span').click ->
+      $('#menu-container span').removeClass()
+      $(this).addClass('selected')
+      id = $(this).attr('data-url').replace(/\./g, '_') # '.' in id breaks jQuery!
+      $('#graph-container').append("<div class=dygraph id=#{id}></div>")
+      g = new Graph
+        name: 'foo'
+        url: $(this).attr('data-url')
+        div: id
+      .create()
 
 
   @go: ->
-    $('#js-datastore').data('statArray', {})
-    @loadFile().then(@parseHtml).done(@createMenu)
+    $('#js-datastore').data('stats', {})
+    @loadFile()
+      .then(@parseHtml)
+      .then(@createMenu)
 
 $ ->
-  $(document).keydown (event) ->
-    switch event.keyCode
-      when 32 # space
-        console.log 'get_stats', Stat.get_stats()[0].title
-      when 67 # c
-        console.log 'create'
-      when 82 # r
-        console.log 'read'
-
   Stat.go()
 
+
+###
+  $(window).resize ->
+    $('.dygraph')
   g1 = new Graph
     name: 'BWP'
     url: '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201403.xml'
@@ -113,8 +117,8 @@ $ ->
     url: '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201403.xml'
     div: 'graph2'
 
-  g1.create()
-  g2.create()
+  #g1.create()
+  #g2.create()
 
   setInterval (->
     console.log Date()
@@ -122,5 +126,12 @@ $ ->
     graph.zoomRight() for graph in [g1, g2]
   ), 5 * 60 * 1000
 
-  $(window).resize ->
-    graph.adjustWidth() for graph in [g1, g2]
+  $(document).keydown (event) ->
+    switch event.keyCode
+      when 32 # space
+        console.log 'get_stats', Stat.get_stats()[0].title
+      when 67 # c
+        console.log 'create'
+      when 82 # r
+        console.log 'read'
+###
