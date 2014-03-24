@@ -57,13 +57,13 @@ class Stat
     $(htmlDoc).find('li>a').map ->
       url = $(this).attr('href')
       urlRe = /([0-9a-f-]{35})\.([0-9]{6})\.xml/
-      source = url.replace(urlRe, "$1")
-      period = url.replace(urlRe, "$2")
+      source = url.replace(urlRe, '$1')
+      period = url.replace(urlRe, '$2')
       year = period.slice 0,4
       month = period.slice -2
       titleRe = /(.*) \((.*)\) [0-9]{6}/
-      title = $(this).text().replace(titleRe, "$1")
-      categoryAndRoom = $(this).text().replace(titleRe, "$2")
+      title = $(this).text().replace(titleRe, '$1')
+      categoryAndRoom = $(this).text().replace(titleRe, '$2')
 
       if source of Stat.get_stats() # CoffeeScript 'of' equals JS 'in'
         data = Stat.get_stats()[source]
@@ -75,7 +75,7 @@ class Stat
         $('#js-datastore').data('stats', obj)
 
   @createMenu: ->
-    $('#menu-container').append("<ul></ul>")
+    $('#menu-container').append('<ul></ul>')
     for k, v of Stat.get_stats()
       $('#menu-container>ul').append("<li id=#{k}>#{v.title}<ul></ul></li>")
       for u in v.urls
