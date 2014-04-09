@@ -1,36 +1,13 @@
 <!doctype html>
-<html>
+<html lang=en>
   <head>
     <title>Loxgraph</title>
+    <meta name=viewport content='width=device-width, initial-scale=1'>
     <link rel=stylesheet href=bootstrap.min.css>
     <style type=text/css>
-      #menu-container {
-        border: 2px solid gray;
-        margin: 10px;
-      }
-
-      #menu-container .selected {
-        font-weight: bold;
-      }
-
-      #menu-container .date {
-        cursor: pointer;
-      }
-
-      #graph-container {
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      .dygraph-wrapper {
-        position: relative;
-      }
-
-      .dygraph-wrapper .close-graph {
-        cursor: pointer;
-        position: absolute;
-        right: 20px;
-        top: 20px;
+      body {
+        min-height: 2000px;
+        padding-top: 70px;
       }
 
       .dygraph {
@@ -38,63 +15,77 @@
         min-height: 320px;
         position: relative;
       }
-
-      .dygraph .loading {
-        color: #ddd;
-        font-size: 300%;
-        position: relative;
-        top: 120px;
-      }
     </style>
     <script src=jquery-2.1.0.min.js></script>
+    <script src=bootstrap.min.js></script>
     <script src=coffee-script.js></script>
     <script src=ractive.min.js></script>
     <script src=dygraph.js></script>
     <script src=script.coffee type=text/coffeescript></script>
   </head>
   <body id=output>
-  loading
+    <div class='text-center'>
+      <h1>loading</h1>
+    </div>
   </body>
   <script id='template' type='text/ractive'>
     {{#stats}}
-      <div id=menu-container>
-      <h1>Loxone Graphs</h1>
-      <ul>
-        {{#stats:id}}
-          <li>
-            {{title}} ({{categoryAndRoom}})
-            <ul>
-              {{#urls}}
-                <li>
-                <a class="date {{selected ? 'selected' : ''}}"
-                   on-click=select:{{.}},{{title}}>
-                   {{year}}-{{month}}
-                </a>
+    <div class='navbar navbar-default navbar-fixed-top' role=navigation>
+      <div class=container>
+        <div class='navbar-header'>
+         <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button> -->
+          <a class=navbar-brand href='' title=reload>Loxone Graphs</a>
+        </div>
+        <div class='navbar-collapse collapse'>
+          <ul class='nav navbar-nav'>
+            {{#stats:id}}
+            <li class=dropdown>
+              <a href='javascript:void(0)'
+                 class=dropdown-toggle
+                 data-toggle=dropdown
+                 title='Category/Room: {{categoryAndRoom}}'>
+                {{title}} <b class=caret></b>
+              </a>
+              <ul class=dropdown-menu>
+                {{#urls}}
+                <li class={{selected ? 'active' : ''}}>
+                  <a href='javascript:void(0)' class=date
+                     on-click=select:{{.}},{{title}}>
+                     {{year}}-{{month}}
+                  </a>
                 </li>
-              {{/urls}}
-            </ul>
-          </li>
-        {{/stats}}
-      </ul>
+                {{/urls}}
+              </ul>
+            </li>
+            {{/stats}}
+          </ul>
+        </div>
       </div>
-      <div id=graph-container>
-        {{#stats:id}}
-          {{#urls}}
-            {{#selected}}
-              <div class=dygraph-wrapper>
-                <a on-click=select title=close class=close-graph>
-                  x
-                </a>
-                <div id={{divId}} class=dygraph>
-                  <span class=loading>
-                    loading
-                  </span>
-                </div>
-            </div>
-            {{/selected}}
-          {{/urls}}
-        {{/stats}}
-      </div>
+    </div>
+
+    <div id=graph-container>
+      {{#stats:id}}
+        {{#urls}}
+          {{#selected}}
+            <div class=dygraph-wrapper>
+              <button on-click=select type=button class=close>&times;</button>
+              <div id={{divId}} class=dygraph>
+                <span class=loading>
+                  loading
+                </span>
+              </div>
+          </div>
+          {{/selected}}
+        {{/urls}}
+      {{/stats}}
+
+    </div>
+
     {{/stats}}
   </script>
 </html>
