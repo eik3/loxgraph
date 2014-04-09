@@ -4,45 +4,46 @@
     <title>Loxgraph</title>
     <link rel=stylesheet href=bootstrap.min.css>
     <style type=text/css>
-      .dygraph-wrapper {
-        border: 2px solid white;
-        position: relative;
-      }
-
-      .dygraph-wrapper .close-graph {
-        text-decoration: none;
-        font-family: Arial, sans-serif;
-        font-weight: 300;
-        position: absolute;
-        right: 1px;
-        top: 1px;
-      }
-
-      .dygraph {
-        border: 2px solid white;
-        margin: 20px;
-        position: relative;
-      }
-
-      .dygraph .loading {
-        position: relative;
-        top: 120px;
-        color: #ddd;
-        font-size: 300%;
-      }
-
       #menu-container {
         border: 2px solid gray;
         margin: 10px;
       }
+
       #menu-container .selected {
         font-weight: bold;
       }
 
+      #menu-container .date {
+        cursor: pointer;
+      }
+
       #graph-container {
-        min-height: 320px;
         text-align: center;
         vertical-align: middle;
+      }
+
+      .dygraph-wrapper {
+        position: relative;
+      }
+
+      .dygraph-wrapper .close-graph {
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+
+      .dygraph {
+        margin: 20px;
+        min-height: 320px;
+        position: relative;
+      }
+
+      .dygraph .loading {
+        color: #ddd;
+        font-size: 300%;
+        position: relative;
+        top: 120px;
       }
     </style>
     <script src=jquery-2.1.0.min.js></script>
@@ -64,9 +65,11 @@
             {{title}} ({{categoryAndRoom}})
             <ul>
               {{#urls}}
-                <li class={{selected ? 'selected' : ''}}
-                    on-click=select:{{.}},{{title}}>
-                  {{year}}-{{month}}
+                <li>
+                <a class="date {{selected ? 'selected' : ''}}"
+                   on-click=select:{{.}},{{title}}>
+                   {{year}}-{{month}}
+                </a>
                 </li>
               {{/urls}}
             </ul>
