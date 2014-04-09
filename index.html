@@ -45,15 +45,53 @@
         vertical-align: middle;
       }
     </style>
-    <script src=coffee-script.js></script>
     <script src=jquery-2.1.0.min.js></script>
+    <script src=coffee-script.js></script>
+    <script src=ractive.min.js></script>
     <script src=dygraph.js></script>
     <script src=script.coffee type=text/coffeescript></script>
-    <script src=jquery.wakeup.js></script>
   </head>
-  <body>
-    <div id=menu-container><h1>Loxone Graphs</h1></div>
-    <div id=graph-container></div>
-    <div id=js-datastore></div>
+  <body id=output>
+  loading
   </body>
+  <script id='template' type='text/ractive'>
+    {{#stats}}
+      <div id=menu-container>
+      <h1>Loxone Graphs</h1>
+      <ul>
+        {{#stats:id}}
+          <li>
+            {{title}} ({{categoryAndRoom}})
+            <ul>
+              {{#urls}}
+                <li class={{selected ? 'selected' : ''}}
+                    on-click=select:{{.}},{{title}}>
+                  {{year}}-{{month}}
+                </li>
+              {{/urls}}
+            </ul>
+          </li>
+        {{/stats}}
+      </ul>
+      </div>
+      <div id=graph-container>
+        {{#stats:id}}
+          {{#urls}}
+            {{#selected}}
+              <div class=dygraph-wrapper>
+                <a on-click=select title=close class=close-graph>
+                  x
+                </a>
+                <div id={{divId}} class=dygraph>
+                  <span class=loading>
+                    loading
+                  </span>
+                </div>
+            </div>
+            {{/selected}}
+          {{/urls}}
+        {{/stats}}
+      </div>
+    {{/stats}}
+  </script>
 </html>

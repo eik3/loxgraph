@@ -28,7 +28,7 @@ class Graph
 
   create: ->
     @loadFile("/stats/#{@url}").then(@parseXml).then(@draw)
-    $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
+    @adjustWidth()
     return this
 
   update: ->
@@ -61,58 +61,38 @@ class Stat
       titleRe = /(.*) \((.*)\) [0-9]{6}/
       title = $(this).text().replace(titleRe, '$1')
       categoryAndRoom = $(this).text().replace(titleRe, '$2')
+      divId = "#{sourceId}_#{year}#{month}"
+      selected = false
+      urlObj = {url, year, month, divId, selected}
 
       if sourceId of stats # CoffeeScript 'of' equals JS 'in'
-        stats[sourceId].urls.push {url, year, month}
+        stats[sourceId].urls.push urlObj
       else
-        stats[sourceId] = {title, categoryAndRoom, urls: [{url, year, month}]}
+        stats[sourceId] = {title, categoryAndRoom, urls: [urlObj]}
 
-    return stats
-
-  @createMenu: (stats) ->
-    $('#menu-container').append('<ul></ul>')
-    for sourceId, source of stats
-      $('#menu-container>ul').append("<li id=#{sourceId}>#{source.title}<ul></ul></li>")
-      for u in source.urls
-        divId = "#{sourceId}_#{u.year}#{u.month}"
-        $("#menu-container>ul>li[id=#{sourceId}]>ul")
-          .append("<li><a title='show/hide graph for #{u.year} #{u.month}'
-            href='javascript:void(0)'
-            data-div-id=#{divId}
-            data-url=#{u.url}
-            data-title=\"#{source.title}: #{u.year}-#{u.month}\">#{u.year}-#{u.month}</a></li>")
-    $('#menu-container a').click ->
-      # TODO move remaining code into Graph method
-      divId = $(this).attr('data-div-id')
-      if $(this).hasClass('selected')
-        $("##{divId}").parent().remove()
-      else
-        $('#graph-container').append("<div class=dygraph-wrapper>
-          <a title=close data-div-id=#{divId} class=close-graph href='javascript:void(0)'>x</a>
-          <div class=dygraph id=#{divId}><span class=loading>loading</span></div>
-          </div")
-        g = new Graph
-          name: $(this).attr('data-title')
-          url: $(this).attr('data-url')
-          div: divId
-        .create()
-
-      $('.close-graph').click (event) ->
-        event.preventDefault()
-        $(this).parent().remove()
-        dataDivId = $(this).attr('data-div-id')
-        $("#menu-container a[data-div-id=#{dataDivId}]").removeClass('selected')
-
-      $(this).toggleClass('selected')
+    ractive.set stats: stats
 
   @go: ->
     @loadFile()
       .then(@parseHtml)
-      .then(@createMenu)
 
-$ ->
-  Stat.go()
+Stat.go()
 
+ractive = new Ractive
+  el: 'output'
+  template: '#template'
+  data: stats={}
+
+ractive.on
+  select: (event, url, title) ->
+    kp = @get "#{event.keypath}"
+    @set "#{event.keypath}.selected", !kp.selected
+    if kp.selected
+      new Graph
+        name: "#{title} #{kp.year}-#{kp.month}"
+        url: kp.url
+        div: kp.divId
+      .create()
 
 ###
   $(window).resize ->
