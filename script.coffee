@@ -93,35 +93,3 @@ ractive.on
         url: kp.url
         div: kp.divId
       .create()
-
-###
-  $(window).resize ->
-    $('.dygraph')
-  g1 = new Graph
-    name: 'BWP'
-    url: '/stats/8145ccd1-7eb6-11e3-8871c2aa1a975e8c.201403.xml'
-    div: 'graph1'
-
-  g2 = new Graph
-    name: 'Entfeuchter'
-    url: '/stats/d1566d63-84ff-11e3-bcf9cf3dda222cab.201403.xml'
-    div: 'graph2'
-
-  #g1.create()
-  #g2.create()
-
-  setInterval (->
-    console.log Date()
-    graph.update() for graph in [g1, g2]
-    graph.zoomRight() for graph in [g1, g2]
-  ), 5 * 60 * 1000
-
-  $(document).keydown (event) ->
-    switch event.keyCode
-      when 32 # space
-        console.log 'get_stats', Stat.get_stats()[0].title
-      when 67 # c
-        console.log 'create'
-      when 82 # r
-        console.log 'read'
-###
