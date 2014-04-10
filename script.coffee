@@ -62,8 +62,7 @@ class Stat
       title = $(this).text().replace(titleRe, '$1')
       categoryAndRoom = $(this).text().replace(titleRe, '$2')
       divId = "#{sourceId}_#{year}#{month}"
-      selected = false
-      urlObj = {url, year, month, divId, selected}
+      urlObj = {url, year, month, divId, selected: false}
 
       if sourceId of stats # CoffeeScript 'of' equals JS 'in'
         stats[sourceId].urls.push urlObj
@@ -73,20 +72,18 @@ class Stat
     ractive.set stats: stats
 
   @go: ->
-    @loadFile()
-      .then(@parseHtml)
+    @loadFile().then(@parseHtml)
 
 Stat.go()
 
 ractive = new Ractive
   el: 'output'
   template: '#template'
-  data: stats={}
 
 ractive.on
   select: (event, url, title) ->
     kp = @get "#{event.keypath}"
-    @set "#{event.keypath}.selected", !kp.selected
+    @toggle "#{event.keypath}.selected"
     if kp.selected
       new Graph
         name: "#{title} #{kp.year}-#{kp.month}"
