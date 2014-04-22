@@ -10,7 +10,7 @@ class Graph
   parseXml: (xmlDoc) =>
     @data = $(xmlDoc).find('S').map ->
       timestamp = new Date($(this).attr('T'))
-      value = parseFloat($(this).attr('AI1'))
+      value = parseFloat($(this)[0].attributes[1].value)
       [[timestamp, value]]
     .toArray()
 
@@ -18,7 +18,6 @@ class Graph
     @graph = new Dygraph($("##{@div}")[0], d,
       delimiter: ';'
       digitsAfterDecimal: 3
-      includeZero: true
       labels: ['Time', 'value']
       rollPeriod: 1
       showRoller: true
