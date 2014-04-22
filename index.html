@@ -24,21 +24,24 @@
     <script src=script.coffee type=text/coffeescript></script>
   </head>
   <body id=output>
-    <div class='text-center'>
+    <div class=text-center>
       <h1>loading</h1>
     </div>
   </body>
-  <script id='template' type='text/ractive'>
+  <script id=template type='text/ractive'>
     {{#stats}}
     <div class='navbar navbar-default navbar-fixed-top' role=navigation>
       <div class=container>
-        <div class='navbar-header'>
-         <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> -->
+        <div class=navbar-header>
+          <button type=button
+                  class=navbar-toggle
+                  data-toggle=collapse
+                  data-target=.navbar-collapse>
+            <span class=sr-only>Toggle navigation</span>
+            <span class=icon-bar></span>
+            <span class=icon-bar></span>
+            <span class=icon-bar></span>
+          </button>
           <a class=navbar-brand href='' title=reload>Loxone Graphs</a>
         </div>
         <div class='navbar-collapse collapse'>
