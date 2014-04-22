@@ -10,7 +10,7 @@ Loxgraph
 ========
 
 Loxgraph is a solution to display graphs for statistics on a [Loxone Miniserver](http://www.loxone.com/enuk/products/miniserver/miniserver.html).
-No separate computer/server/RasPi or internet connection is needed. Loxgraph is basically a JavaScript/HTML single-page-app that gets served directly from the web server built into the Loxone Miniserver.
+No separate computer/server/RasPi or internet connection is needed. Loxgraph is basically a JavaScript/HTML single-page application that gets served directly from the web server built into the Loxone Miniserver.
 
 Screenshot
 ----------
