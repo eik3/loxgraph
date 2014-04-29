@@ -12,21 +12,32 @@ Loxgraph
 Loxgraph is a solution to display graphs for statistics on a [Loxone Miniserver](http://www.loxone.com/enuk/products/miniserver/miniserver.html).
 No separate computer/server/RasPi or internet connection is needed. Loxgraph is basically a JavaScript/HTML single-page application that gets served directly from the web server built into the Loxone Miniserver.
 
+Demo
+----
+
+[Loxgraph Demo with Sample Data](http://5minfork.com/eik3/loxgraph)
+
 Screenshot
 ----------
 
 ![Loxgraph Screenshot](http://eik3.de/t/loxgraph-screenshot-1.png "Loxgraph Screenshot")
 
-Usage
------
+Installation
+------------
 
 1. Connect to your Miniserver with a FTP Client
 1. Create the directory `/user/common/loxgraph`
-1. Copy all files into `/user/common/loxgraph`
-1. Point your (modern) browser to http://<hostname/ip of your loxone>/loxgraph`
+1. Copy all files into `/user/common/loxgraph/`
 
-To zoom a graph, select an horizontal area. Double-click to reset zoom.
+Usage
+-----
+
+1. Open the Web Interface of your Loxone and append `/loxgraph` to the URL
+1. Log in with your Loxone credentials
+
+To zoom a graph, select an horizontal or vertical area. Double-click to reset zoom.
 To pan, hold `shift` and drag with the mouse.
+To smoothen a graph (e.g. temperature), play with the value in the lower left corner of each graph.
 
 Contributions welcome!
 ----------------------
