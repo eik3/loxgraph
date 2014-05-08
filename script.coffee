@@ -75,17 +75,23 @@ class Stat
 
 Stat.go()
 
+graphs = []
+
 ractive = new Ractive
   el: 'output'
   template: '#template'
+  data: graphs
 
 ractive.on
   select: (event, url, title) ->
     kp = @get "#{event.keypath}"
     @toggle "#{event.keypath}.selected"
     if kp.selected
-      new Graph
+      graphs[kp.divId] = new Graph
         name: "#{title} #{kp.year}-#{kp.month}"
         url: kp.url
         div: kp.divId
       .create()
+  refresh: (event) ->
+    kp = @get "#{event.keypath}"
+    graphs[kp.divId].update()
