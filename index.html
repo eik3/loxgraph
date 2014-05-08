@@ -76,7 +76,12 @@
         {{#urls}}
           {{#selected}}
             <div class=dygraph-wrapper>
-              <button on-click=select type=button class=close>&times;</button>
+              <button on-click=select type=button class=close>
+                <span class='glyphicon glyphicon-remove'></span>
+              </button>
+              <button on-click=refresh type=button class=close>
+                <span class='glyphicon glyphicon-refresh'></span>
+              </button>
               <div id={{divId}} class=dygraph>
                 <span class=loading>
                   loading
