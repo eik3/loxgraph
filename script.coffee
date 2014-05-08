@@ -5,7 +5,7 @@ class Graph
   data = undefined
   graph = undefined
 
-  loadFile: (url) -> $.ajax { url: url, dataType: 'xml' }
+  loadFile: -> $.ajax { url: "/stats/#{@url}", dataType: 'xml' }
 
   parseXml: (xmlDoc) =>
     @data = $(xmlDoc).find('S').map ->
@@ -19,6 +19,7 @@ class Graph
       delimiter: ';'
       digitsAfterDecimal: 3
       labels: ['Time', 'value']
+      rightGap: 20
       rollPeriod: 1
       showRoller: true
       strokeWidth: 1
@@ -26,12 +27,12 @@ class Graph
     )
 
   create: ->
-    @loadFile("/stats/#{@url}").then(@parseXml).then(@draw)
+    @loadFile().then(@parseXml).then(@draw)
     @adjustWidth()
     return this
 
   update: ->
-    @loadFile(@url).then(@parseXml).then =>
+    @loadFile().then(@parseXml).then =>
       @graph.updateOptions file: @data
 
   zoomLastMinutes: (minutes=120) ->
