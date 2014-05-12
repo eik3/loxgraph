@@ -25,6 +25,7 @@ class Graph
       strokeWidth: 1
       title: @name
     )
+    @zoomLastMinutes 1440
 
   create: ->
     @loadFile().then(@parseXml).then(@draw)
@@ -39,9 +40,17 @@ class Graph
     now = new Date().valueOf()
     intervalBegin = now - minutes * 1000 * 60
     intervalEnd   = now
-    console.log [intervalBegin, intervalEnd]
     @graph.updateOptions
       dateWindow: [intervalBegin, intervalEnd]
+
+  moveDateWindowRight: ->
+    [currBegin, currEnd] = @graph.xAxisRange()
+
+    now = new Date().valueOf()
+    diff = now - currEnd
+
+    @graph.updateOptions
+      dateWindow: [currBegin + diff, currEnd + diff]
 
   adjustWidth: ->
     $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
@@ -96,3 +105,4 @@ ractive.on
   refresh: (event) ->
     kp = @get "#{event.keypath}"
     graphs[kp.divId].update()
+    graphs[kp.divId].moveDateWindowRight()
