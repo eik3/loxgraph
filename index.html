@@ -2,6 +2,7 @@
 <html lang=en>
   <head>
     <title>Loxgraph</title>
+    <meta charset=utf-8>
     <meta name=viewport content='width=device-width, initial-scale=1'>
     <link rel=stylesheet href=bootstrap.min.css>
     <style type=text/css>
@@ -28,7 +29,17 @@
       <h1>loading</h1>
     </div>
   </body>
+
   <script id=template type='text/ractive'>
+    {{#loading}}
+    <div id=progressbar-container style='width: 100%'>
+      <center>{{progress}}&thinsp;%</center>
+      <div style="border:2px solid green;width: {{progress}}%;">
+      </div>
+    </div>
+    {{/loading}}
+
+    {{#!loading}}
     {{#stats}}
     <div class='navbar navbar-default navbar-fixed-top' role=navigation>
       <div class=container>
@@ -47,23 +58,9 @@
         <div class='navbar-collapse collapse'>
           <ul class='nav navbar-nav'>
             {{#stats:id}}
-            <li class=dropdown>
+            <li>
               <a href='javascript:void(0)'
-                 class=dropdown-toggle
-                 data-toggle=dropdown
-                 title='Category/Room: {{categoryAndRoom}}'>
-                {{title}} <b class=caret></b>
-              </a>
-              <ul class=dropdown-menu>
-                {{#urls}}
-                <li class={{selected ? 'active' : ''}}>
-                  <a href='javascript:void(0)' class=date
-                     on-click=select:{{.}},{{title}}>
-                     {{year}}-{{month}}
-                  </a>
-                </li>
-                {{/urls}}
-              </ul>
+                 on-click=select:{{title}},{{id}}>{{title}}</a>
             </li>
             {{/stats}}
           </ul>
@@ -73,27 +70,26 @@
 
     <div id=graph-container>
       {{#stats:id}}
-        {{#urls}}
-          {{#selected}}
-            <div class=dygraph-wrapper>
-              <button on-click=select type=button class=close>
-                <span class='glyphicon glyphicon-remove'></span>
-              </button>
-              <button on-click=refresh type=button class=close>
-                <span class='glyphicon glyphicon-refresh'></span>
-              </button>
-              <div id={{divId}} class=dygraph>
-                <span class=loading>
-                  loading
-                </span>
-              </div>
-          </div>
-          {{/selected}}
-        {{/urls}}
+      {{#selected}}
+      <div class=dygraph-wrapper>
+        <button on-click=select type=button class=close>
+          <span class='glyphicon glyphicon-remove'></span>
+        </button>
+<!-- update not yet working!
+        <button on-click=update type=button class=close>
+          <span class='glyphicon glyphicon-refresh'></span>
+        </button>
+ -->        <div id={{id}} class=dygraph>
+          <span class=loading>
+            loading
+          </span>
+        </div>
+      </div>
+      {{/selected}}
       {{/stats}}
-
     </div>
 
     {{/stats}}
+    {{/loading}}
   </script>
 </html>
