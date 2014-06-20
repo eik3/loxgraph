@@ -1,4 +1,5 @@
 window.Loxgraph = {}
+Loxgraph.statPrefix = ''
 
 class Loxgraph.Graph
   constructor: (options) ->
@@ -49,7 +50,10 @@ class Loxgraph.Graph
     $("##{@div}").width($(window).width() - $("##{@div}").css('margin').replace(/[^-\d\.]/g, '')*4)
 
 class Loxgraph.Stat
-  @loadFile: -> $.ajax { url: '/stats', dataType: 'html' }
+  @loadFile: (url) ->
+    $.ajax({ url: url, dataType: 'html' }).then null, ->
+      Loxgraph.statPrefix = '/'
+      $.ajax { url: Loxgraph.statPrefix + url, dataType: 'html' }
 
   @parseHtml: (htmlDoc) =>
     stats = {}
@@ -94,7 +98,7 @@ class Loxgraph.Stat
       ractive.add 'current'
       $.ajax(
         dataType: 'xml'
-        url: "/stats/#{queue[0].url}"
+        url: Loxgraph.statPrefix + "stats/#{queue[0].url}"
       ).done (data) =>
         @parseXML queue[0].sourceId, data
         @processQueue queue.slice(1), callback
@@ -115,7 +119,7 @@ class Loxgraph.Stat
       ractive.set 'loading', false # hides progress bar, shows menu
 
   @go: ->
-    @loadFile().then(@parseHtml).then(@buildArray)
+    @loadFile('stats/').then(@parseHtml).then(@buildArray)
 
 Loxgraph.Stat.go()
 
