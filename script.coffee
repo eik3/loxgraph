@@ -76,7 +76,11 @@ class Loxgraph.Stat
   @parseXML: (sourceId, xmlDoc) =>
       ractive.set 'progress', ((ractive.get 'current') / (ractive.get 'total') * 100).toFixed(0)
       parsedData = $(xmlDoc).find('S').map ->
-        timestamp = new Date($(this).attr('T').replace(' ', 'T'))
+        dateString = $(this).attr('T')
+        # ugly hack to fix date parsing differences between chrome & firefox
+        dateString = dateString.replace(' ', 'T') if /Firefox/.test(navigator.userAgent)
+        # /hack
+        timestamp = new Date(dateString)
         value = parseFloat($(this)[0].attributes[1].value)
         [[timestamp, value]]
       .toArray()
