@@ -15,7 +15,7 @@ No separate computer/server/RasPi or internet connection is needed. Loxgraph is 
 Demo
 ----
 
-[Loxgraph Demo with Sample Data](http://5minfork.com/eik3/loxgraph)
+[Loxgraph Demo with Sample Data](https://eik3.github.io/loxgraph/)
 
 Screenshot
 ----------
