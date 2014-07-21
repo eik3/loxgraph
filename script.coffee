@@ -51,6 +51,7 @@ class Loxgraph.Graph
 
 class Loxgraph.Stat
   @loadFile: (url) ->
+    # return deferred if successful, prefix '/' on failure and retry
     $.ajax({ url: url, dataType: 'html' }).then null, ->
       Loxgraph.statPrefix = '/'
       $.ajax { url: Loxgraph.statPrefix + url, dataType: 'html' }
@@ -81,13 +82,13 @@ class Loxgraph.Stat
       ractive.set 'progress', ((ractive.get 'current') / (ractive.get 'total') * 100).toFixed(0)
       parsedData = $(xmlDoc).find('S').map ->
         dateString = $(this).attr('T')
-        # ugly hack to fix date parsing differences between chrome & firefox
+        # next line: ugly hack to fix date parsing differences between chrome & firefox
         dateString = dateString.replace(' ', 'T') if /Firefox/.test(navigator.userAgent)
-        # /hack
         timestamp = new Date(dateString)
         value = parseFloat($(this)[0].attributes[1].value)
         [[timestamp, value]]
       .toArray()
+
       if sourceId of window.Loxgraph.sourceData
         Array::push.apply window.Loxgraph.sourceData[sourceId], parsedData
       else
