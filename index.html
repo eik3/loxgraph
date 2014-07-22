@@ -14,7 +14,12 @@
       .dygraph {
         margin: 20px;
         min-height: 320px;
+        right: 25px; /* ugly hack, FIXME! button(s) overlaps w/ graph area */
         position: relative;
+      }
+
+      .loading {
+        opacity: 0.25;
       }
     </style>
     <script src=jquery-2.1.0.min.js></script>
@@ -75,15 +80,10 @@
         <button on-click=select type=button class=close>
           <span class='glyphicon glyphicon-remove'></span>
         </button>
-<!-- update not yet working!
-        <button on-click=update type=button class=close>
+        <button on-click=refresh:{{id}} type=button class=close>
           <span class='glyphicon glyphicon-refresh'></span>
         </button>
- -->        <div id={{id}} class=dygraph>
-          <span class=loading>
-            loading
-          </span>
-        </div>
+        <div id={{id}} class="dygraph {{graphLoading ? 'loading' : ''}}"></div>
       </div>
       {{/selected}}
       {{/stats}}

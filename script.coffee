@@ -25,10 +25,8 @@ class Loxgraph.Graph
     # @adjustWidth()
     return this
 
-  # update not yet working!
-  # update: ->
-  #   @loadFile().then(@parseXml).then =>
-  #     @graph.updateOptions file: @data
+  refresh: (freshData) ->
+    @graph.updateOptions file: freshData
 
   zoomLastMinutes: (minutes=120) ->
     now = new Date().valueOf()
@@ -78,17 +76,19 @@ class Loxgraph.Stat
     ractive.set 'stats', stats
     stats
 
-  @parseXML: (sourceId, xmlDoc) =>
-      ractive.set 'progress', ((ractive.get 'current') / (ractive.get 'total') * 100).toFixed(0)
-      parsedData = $(xmlDoc).find('S').map ->
-        dateString = $(this).attr('T')
-        # next line: ugly hack to fix date parsing differences between chrome & firefox
-        dateString = dateString.replace(' ', 'T') if /Firefox/.test(navigator.userAgent)
-        timestamp = new Date(dateString)
-        value = parseFloat($(this)[0].attributes[1].value)
-        [[timestamp, value]]
-      .toArray()
+  @parseXml: (xmlDoc) =>
+    $(xmlDoc).find('S').map ->
+      dateString = $(this).attr('T')
+      # next line: ugly hack to fix date parsing differences between chrome & firefox
+      dateString = dateString.replace(' ', 'T') if /Firefox/.test(navigator.userAgent)
+      timestamp = new Date(dateString)
+      value = parseFloat($(this)[0].attributes[1].value)
+      [[timestamp, value]]
+    .toArray()
 
+  @buildSourceData: (sourceId, xmlDoc) =>
+      ractive.set 'progress', ((ractive.get 'current') / (ractive.get 'total') * 100).toFixed(0)
+      parsedData = @parseXml xmlDoc
       if sourceId of window.Loxgraph.sourceData
         Array::push.apply window.Loxgraph.sourceData[sourceId], parsedData
       else
@@ -101,10 +101,24 @@ class Loxgraph.Stat
         dataType: 'xml'
         url: Loxgraph.statPrefix + "stats/#{queue[0].url}"
       ).done (data) =>
-        @parseXML queue[0].sourceId, data
+        @buildSourceData queue[0].sourceId, data
         @processQueue queue.slice(1), callback
     else
       callback()
+
+  @updateData: (sourceId) =>
+    oldData = window.Loxgraph.sourceData[sourceId]
+    lastTimestamp = oldData[oldData.length - 1][0]
+    stats = ractive.get 'stats'
+    lastUrl = stats[sourceId].urls[stats[sourceId].urls.length - 1].url
+    $.ajax(
+      dataType: 'xml'
+      url: Loxgraph.statPrefix + "stats/#{lastUrl}"
+    ).done (response) =>
+      newData = @parseXml response
+      for tuple in newData
+        if tuple[0] > lastTimestamp
+          Array::push.apply window.Loxgraph.sourceData[sourceId], [tuple]
 
   @buildArray: (stats) =>
     queue = []
@@ -127,9 +141,9 @@ Loxgraph.Stat.go()
 graphs = []
 
 ractive = new Ractive
+  data: graphs
   el: 'output'
   template: '#template'
-  data: graphs
 
 ractive.on
   select: (event, title, sourceId) ->
@@ -141,8 +155,10 @@ ractive.on
         data: window.Loxgraph.sourceData[sourceId]
         div: sourceId
       .create()
-  # update not yet working!
-  # update: (event) ->
-  #   kp = @get "#{event.keypath}"
-  #   graphs[kp.divId].update()
-  #   graphs[kp.divId].moveDateWindowRight()
+  refresh: (event, sourceId) ->
+    kp = @get "#{event.keypath}"
+    ractive.set "#{event.keypath}.graphLoading", true
+    graphs[event.keypath].moveDateWindowRight()
+    Loxgraph.Stat.updateData(sourceId).then ->
+      ractive.set "#{event.keypath}.graphLoading", false
+      graphs[event.keypath].refresh window.Loxgraph.sourceData[sourceId]
