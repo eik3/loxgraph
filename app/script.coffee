@@ -51,7 +51,7 @@ class Loxgraph.Stat
   @loadFile: (url) ->
     # return deferred if successful, prefix '/' on failure and retry
     $.ajax({ url: url, dataType: 'html' }).then null, ->
-      Loxgraph.statPrefix = '/'
+      Loxgraph.statPrefix = '..'
       $.ajax { url: Loxgraph.statPrefix + url, dataType: 'html' }
 
   @parseHtml: (htmlDoc) =>
@@ -99,7 +99,7 @@ class Loxgraph.Stat
       ractive.add 'current'
       $.ajax(
         dataType: 'xml'
-        url: Loxgraph.statPrefix + "stats/#{queue[0].url}"
+        url: Loxgraph.statPrefix + "/stats/#{queue[0].url}"
       ).done (data) =>
         @buildSourceData queue[0].sourceId, data
         @processQueue queue.slice(1), callback
@@ -113,7 +113,7 @@ class Loxgraph.Stat
     lastUrl = stats[sourceId].urls[stats[sourceId].urls.length - 1].url
     $.ajax(
       dataType: 'xml'
-      url: Loxgraph.statPrefix + "stats/#{lastUrl}"
+      url: Loxgraph.statPrefix + "/stats/#{lastUrl}"
     ).done (response) =>
       newData = @parseXml response
       for tuple in newData
@@ -134,7 +134,7 @@ class Loxgraph.Stat
       ractive.set 'loading', false # hides progress bar, shows menu
 
   @go: ->
-    @loadFile('stats/').then(@parseHtml).then(@buildArray)
+    @loadFile('/stats/').then(@parseHtml).then(@buildArray)
 
 Loxgraph.Stat.go()
 

@@ -1,11 +1,3 @@
-********************************************************************************
-********************************************************************************
-WORK IN PROGRESS
-================
-I'm currently setting this project up, and it's not yet ready for a wider audience. If you beta-test it, please keep it private for now. I would like to finish some things before I "release" it.
-********************************************************************************
-********************************************************************************
-
 Loxgraph
 ========
 
@@ -15,7 +7,7 @@ No separate computer/server/RasPi or internet connection is needed. Loxgraph is 
 Demo
 ----
 
-[Loxgraph Demo with Sample Data](https://eik3.github.io/loxgraph/)
+[Loxgraph Demo with Sample Data](https://eik3.github.io/loxgraph/app/)
 
 Screenshot
 ----------
