@@ -17,9 +17,10 @@ Screenshot
 Installation
 ------------
 
-1. Connect to your Miniserver with a FTP Client
-1. Create the directory `/user/common/loxgraph`
-1. Copy all files into `/user/common/loxgraph/`
+1. [Download Loxgraph](https://github.com/eik3/loxgraph/archive/master.zip) and unzip the `app` folder
+1. FTP: Connect to your Miniserver
+1. FTP: Create the directory `/user/common/loxgraph`
+1. FTP: Copy the contents of the `app` folder from step 1 into `/user/common/loxgraph/`
 
 Usage
 -----
@@ -30,6 +31,7 @@ Usage
 To zoom a graph, select an horizontal or vertical area. Double-click to reset zoom.
 To pan, hold `shift` and drag with the mouse.
 To smoothen a graph (e.g. temperature), play with the value in the lower left corner of each graph.
+To fetch fresh data, use the reload button for that graph.
 
 Contributions welcome!
 ----------------------
