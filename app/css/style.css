@@ -1,12 +1,8 @@
-body {
-  min-height: 2000px;
-}
-
 .dygraph {
   margin: 20px;
   min-height: 320px;
-  right: 25px; /* ugly hack, FIXME! button(s) overlaps w/ graph area */
   position: relative;
+  right: 25px; /* ugly hack, FIXME! button(s) overlaps w/ graph area */
 }
 
 .loading {
@@ -15,4 +11,10 @@ body {
 
 button:focus {
   outline: none;
+}
+
+.lg-center {
+  position: absolute;
+  top: 40%;
+  width: 100%;
 }

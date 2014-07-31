@@ -14,14 +14,14 @@
     <script src=script.coffee type=text/coffeescript></script>
   </head>
   <body id=output>
-    <div class=text-center>
+    <div class='text-center lg-center'>
       <h1>loading</h1>
     </div>
   </body>
 
   <script id=template type='text/ractive'>
     {{#loading}}
-    <div id=progressbar-container style='width: 100%'>
+    <div class='text-center lg-center'>
       <center>{{progress}}&thinsp;%</center>
       <div style="border:2px solid green;width: {{progress}}%;">
       </div>
