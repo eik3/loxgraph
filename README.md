@@ -12,7 +12,7 @@ Demo
 Screenshot
 ----------
 
-![Loxgraph Screenshot](http://eik3.de/t/loxgraph-screenshot-1.png "Loxgraph Screenshot")
+![Loxgraph Screenshot](http://eik3.de/t/loxgraph-screenshot-2.png "Loxgraph Screenshot")
 
 Installation
 ------------
