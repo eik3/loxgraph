@@ -23,7 +23,7 @@ class Loxgraph.Graph
     
     allGraphs.push(@graph)
     synchronization.detach() if synchronization
-    synchronization = Dygraph.synchronize(allGraphs) if allGraphs.length > 1
+    synchronization = Dygraph.synchronize(allGraphs, {range: false}) if allGraphs.length > 1
     # @zoomLastMinutes 1440
     @graph
 
