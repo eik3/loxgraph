@@ -1,5 +1,7 @@
 window.Loxgraph = {}
 Loxgraph.statPrefix = ''
+allGraphs = []
+synchronization = null
 
 class Loxgraph.Graph
   constructor: (options) ->
@@ -18,7 +20,12 @@ class Loxgraph.Graph
       strokeWidth: 1
       title: @name
     )
+    
+    allGraphs.push(@graph)
+    synchronization.detach() if synchronization
+    synchronization = Dygraph.synchronize(allGraphs, {range: false}) if allGraphs.length > 1
     # @zoomLastMinutes 1440
+    @graph
 
   create: ->
     @draw()
